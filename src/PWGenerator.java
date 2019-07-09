@@ -14,7 +14,47 @@ public class PWGenerator extends JPanel
 	private JButton generateButton;
   
   public PWGenerator(){
-    
+    setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+
+		// Create slider label
+		sliderLabel = new JLabel("Password Length", JLabel.CENTER);
+		sliderLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+		// Create slider
+		passwordLength = new JSlider(JSlider.HORIZONTAL, PW_MIN, PW_MAX,
+				PW_INIT);
+
+		passwordLength.addChangeListener(this);
+
+		// Tick Marks & Labels
+		passwordLength.setMajorTickSpacing(4);
+		passwordLength.setMinorTickSpacing(1);
+		passwordLength.setPaintTicks(true);
+		passwordLength.setPaintLabels(true);
+		passwordLength
+				.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
+		Font font1 = new Font("Serif", Font.ITALIC, 15);
+		passwordLength.setFont(font1);
+
+		// Create button to generate new Password
+		generateButton = new JButton("Generate");
+		generateButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		generateButton.setActionCommand("generate");
+		generateButton.addActionListener(this);
+
+		// Create label that displays generated password
+		passwordField = new JTextField(32);
+		passwordField.setEditable(false);
+		passwordField.setAlignmentX(Component.CENTER_ALIGNMENT);
+		Font font2 = new Font("Serif", Font.BOLD, 24);
+		passwordField.setFont(font2);
+		passwordField.setText(p.getPassword());
+
+		// Put everything together
+		add(sliderLabel);
+		add(passwordLength);
+		add(generateButton);
+		add(passwordField);
   }
   
   	/** Add a listener for window events. */
