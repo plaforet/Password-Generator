@@ -116,6 +116,15 @@ public class PWGenerator extends JPanel
 	}
 
 	public static void main(String[] args) {
+		/* Turn off metal's use of bold fonts */
+		UIManager.put("swing.boldMetal", Boolean.FALSE);
 
+		// Schedule a job for the event-dispatching thread:
+		// creating and showing this application's GUI.
+		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				createAndShowGUI();
+			}
+		});
 	}
 }
