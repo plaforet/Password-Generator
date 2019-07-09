@@ -45,7 +45,7 @@ public class PWGenerator extends JPanel
 		// Create label that displays generated password
 		passwordField = new JTextField(32);
 		passwordField.setEditable(false);
-		passwordField.setAlignmentX(Component.CENTER_ALIGNMENT);
+		passwordField.setHorizontalAlignment(JTextField.CENTER);
 		Font font2 = new Font("Serif", Font.BOLD, 24);
 		passwordField.setFont(font2);
 		passwordField.setText(p.getPassword());
