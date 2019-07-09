@@ -3,7 +3,7 @@ import components.Password;
 public class PWGenerator extends JPanel
 		implements ActionListener, WindowListener, ChangeListener {
 
-  static final int PW_MIN = 4;
+  	static final int PW_MIN = 4;
 	static final int PW_MAX = 32;
 	static final int PW_INIT = 8;
 	private int pwLen = PW_INIT;
@@ -13,8 +13,8 @@ public class PWGenerator extends JPanel
 	private JSlider passwordLength;
 	private JButton generateButton;
   
-  public PWGenerator(){
-    setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+	public PWGenerator(){
+		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
 		// Create slider label
 		sliderLabel = new JLabel("Password Length", JLabel.CENTER);
@@ -55,9 +55,9 @@ public class PWGenerator extends JPanel
 		add(passwordLength);
 		add(generateButton);
 		add(passwordField);
-  }
+	  }
   
-  	/** Add a listener for window events. */
+	/** Add a listener for window events. */
 	void addWindowListener(Window w) {
 		w.addWindowListener(this);
 	}
@@ -87,13 +87,18 @@ public class PWGenerator extends JPanel
 
 	@Override
 	public void stateChanged(ChangeEvent e) {
-    
+		JSlider source = (JSlider) e.getSource();
+		if (!source.getValueIsAdjusting()) {
+			pwLen = (int) source.getValue();
+		}
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-    
-
+		if (e.getActionCommand().equals("generate")) {
+			p.setPassword(pwLen);
+			passwordField.setText(p.getPassword());
+		}
 	}
 
 	private static void createAndShowGUI() {
@@ -111,6 +116,6 @@ public class PWGenerator extends JPanel
 	}
 
 	public static void main(String[] args) {
-    
-  }
+
+	}
 }
