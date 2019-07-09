@@ -131,6 +131,8 @@ public class PWGenerator extends JPanel
 		JSlider source = (JSlider) e.getSource();
 		if (!source.getValueIsAdjusting()) {
 			pwLen = (int) source.getValue();
+			p.setPassword(pwLen);
+			passwordField.setText(p.getPassword());
 		}
 	}
 
