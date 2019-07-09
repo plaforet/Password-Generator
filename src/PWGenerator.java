@@ -1,3 +1,29 @@
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.Toolkit;
+import java.awt.Window;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.ClipboardOwner;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSlider;
+import javax.swing.JTextField;
+import javax.swing.UIManager;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import components.Password;
 
 public class PWGenerator extends JPanel
@@ -12,9 +38,13 @@ public class PWGenerator extends JPanel
 	private JLabel sliderLabel;
 	private JSlider passwordLength;
 	private JButton generateButton;
+	private JButton copyButton;
+	private Clipboard clipboard;
   
 	public PWGenerator(){
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+		
+		clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 
 		// Create slider label
 		sliderLabel = new JLabel("Password Length", JLabel.CENTER);
@@ -42,6 +72,12 @@ public class PWGenerator extends JPanel
 		generateButton.setActionCommand("generate");
 		generateButton.addActionListener(this);
 
+		// Create button to copy text to clipboard
+		copyButton = new JButton("Copy to clipboard");
+		copyButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		copyButton.setActionCommand("copyText");
+		copyButton.addActionListener(this);
+		
 		// Create label that displays generated password
 		passwordField = new JTextField(32);
 		passwordField.setEditable(false);
@@ -55,6 +91,7 @@ public class PWGenerator extends JPanel
 		add(passwordLength);
 		add(generateButton);
 		add(passwordField);
+		add(copyButton);
 	  }
   
 	/** Add a listener for window events. */
@@ -84,6 +121,10 @@ public class PWGenerator extends JPanel
 
 	public void windowDeactivated(WindowEvent e) {
 	}
+	
+	@Override
+	public void lostOwnership(Clipboard clipboard, Transferable contents) {
+	}
 
 	@Override
 	public void stateChanged(ChangeEvent e) {
@@ -99,6 +140,12 @@ public class PWGenerator extends JPanel
 			p.setPassword(pwLen);
 			passwordField.setText(p.getPassword());
 		}
+		if (e.getActionCommand().equals("copyText")) {
+			StringSelection newContents = new StringSelection(
+					p.getPassword());
+			clipboard.setContents(newContents, this);
+		}
+
 	}
 
 	private static void createAndShowGUI() {
